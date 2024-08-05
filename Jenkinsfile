@@ -62,7 +62,7 @@ pipeline {
 
     post {
         success{
-            mail to: "hogang.matt@gtmail.com"
+            mail to: "hogang.matt@gtmail.com",
             subject: "Build Status Email",
             body: "Build was successful!"
         }
