@@ -61,14 +61,10 @@ pipeline {
     }
 
     post {
-        always {
-            emailext (
-                to: 'hogang.matt@gmail.com',
-                subject: "Jenkins Pipeline Notification - ${currentBuild.fullDisplayName}",
-                body: """<p>Pipeline ${currentBuild.fullDisplayName} completed.</p>
-                         <p>Status: ${currentBuild.currentResult}</p>""",
-                attachLog: true
-            )
+        success{
+            mail to: "hogang.matt@gtmail.com"
+            subject: "Build Status Email",
+            body: "Build was successful!"
         }
     }
 }
