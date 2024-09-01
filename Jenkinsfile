@@ -58,7 +58,7 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: '**/target/*.log', allowEmptyArchive: true
-            emailext to: 'developer@example.com',
+            emailext to: 'hogang.matt@gmail.com',
                      subject: "Jenkins Pipeline: ${currentBuild.fullDisplayName} - ${currentBuild.currentResult}",
                      body: """Pipeline ${currentBuild.fullDisplayName} finished with status: ${currentBuild.currentResult}.
                               Check the attached log for details.""",
