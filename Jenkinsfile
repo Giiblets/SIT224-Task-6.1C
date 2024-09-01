@@ -6,19 +6,27 @@ pipeline {
             steps {
                 script {
                     echo 'Building the application. (Use Maven for building)'
-
                 }
             }
         }
-
         stage('Unit and Integration Tests') {
             steps {
                 script {
                     echo 'Running unit and integration tests. (Use JUnit or another test framework)'
                 }
             }
+            post {
+                always {
+                    archiveArtifacts artifacts: '**/target/*.log', allowEmptyArchive: true
+                    mail to: 'hogang.matt@gmail.com',
+                         subject: "Unit and Integration Tests: ${currentBuild.fullDisplayName} - ${currentBuild.currentResult}",
+                         body: """Stage: Unit and Integration Tests
+                                  Status: ${currentBuild.currentResult}
+                                  Check the attached log for details.""",
+                         attachLog: true
+                }
+            }
         }
-
         stage('Code Analysis') {
             steps {
                 script {
@@ -26,15 +34,24 @@ pipeline {
                 }
             }
         }
-
         stage('Security Scan') {
             steps {
                 script {
                     echo 'Performing security scan. (Use OWASP ZAP for security scanning)'
                 }
             }
+            post {
+                always {
+                    archiveArtifacts artifacts: '**/dependency-check-report.html', allowEmptyArchive: true
+                    mail to: 'hogang.matt@gmail.com',
+                         subject: "Security Scan: ${currentBuild.fullDisplayName} - ${currentBuild.currentResult}",
+                         body: """Stage: Security Scan
+                                  Status: ${currentBuild.currentResult}
+                                  Check the attached log for details.""",
+                         attachLog: true
+                }
+            }
         }
-
         stage('Deploy to Staging') {
             steps {
                 script {
@@ -42,7 +59,6 @@ pipeline {
                 }
             }
         }
-
         stage('Integration Tests on Staging') {
             steps {
                 script {
@@ -50,21 +66,24 @@ pipeline {
                 }
             }
         }
-
         stage('Deploy to Production') {
             steps {
                 script {
                     echo 'Deploying to production server. (Deploy to AWS EC2)'
+            
                 }
             }
         }
     }
 
     post {
-        success{
-            mail to: "hogang.matt@gmail.com",
-            subject: "Build Status Email",
-            body: "Build was successful!"
+        always {
+            archiveArtifacts artifacts: '**/target/*.log', allowEmptyArchive: true
+            mail to: 'hogang.matt@gmail.com',
+                 subject: "Jenkins Pipeline: ${currentBuild.fullDisplayName} - ${currentBuild.currentResult}",
+                 body: """Pipeline ${currentBuild.fullDisplayName} finished with status: ${currentBuild.currentResult}.
+                          Check the attached log for details.""",
+                 attachLog: true
         }
     }
 }
