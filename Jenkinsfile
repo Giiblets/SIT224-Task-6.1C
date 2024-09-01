@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     echo 'Building the application. (Use Maven for building)'
-                    // test
+                    sh 'echo "Build log" > build.log'
                 }
             }
         }
@@ -14,6 +14,7 @@ pipeline {
             steps {
                 script {
                     echo 'Running unit and integration tests. (Use JUnit or another test framework)'
+                    sh 'echo "Unit and Integration Tests log" > test.log'
                 }
             }
         }
@@ -21,6 +22,7 @@ pipeline {
             steps {
                 script {
                     echo 'Analyzing code quality...(Use Github & SonarQube for code analysis)'
+                    sh 'echo "Code Analysis log" > code_analysis.log'
                 }
             }
         }
@@ -28,6 +30,7 @@ pipeline {
             steps {
                 script {
                     echo 'Performing security scan. (Use OWASP ZAP for security scanning)'
+                    sh 'echo "Security Scan log" > security_scan.log'
                 }
             }
         }
@@ -35,6 +38,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to staging server. (Deploy to AWS EC2)'
+                    sh 'echo "Deploy to Staging log" > deploy_staging.log'
                 }
             }
         }
@@ -42,6 +46,7 @@ pipeline {
             steps {
                 script {
                     echo 'Running integration tests on staging. (Integration tests on staging server)'
+                    sh 'echo "Integration Tests on Staging log" > integration_staging.log'
                 }
             }
         }
@@ -49,7 +54,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to production server. (Deploy to AWS EC2)'
-            
+                    sh 'echo "Deploy to Production log" > deploy_production.log'
                 }
             }
         }
@@ -57,12 +62,12 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: '**/target/*.log', allowEmptyArchive: true
+            archiveArtifacts artifacts: '*.log', allowEmptyArchive: true
             emailext to: 'hogang.matt@gmail.com',
                      subject: "Jenkins Pipeline: ${currentBuild.fullDisplayName} - ${currentBuild.currentResult}",
                      body: """Pipeline ${currentBuild.fullDisplayName} finished with status: ${currentBuild.currentResult}.
                               Check the attached log for details.""",
-                     attachmentsPattern: '**/target/*.log'
+                     attachmentsPattern: '*.log'
         }
     }
 }
