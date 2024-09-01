@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     echo 'Building the application...'
-                    //sh 'echo "Build log: Application built successfully." > build.log'
+                     writeFile file: 'build.log', text: 'Build log: Application built successfully.'
                 }
             }
         }
