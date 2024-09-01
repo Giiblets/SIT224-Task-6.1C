@@ -75,21 +75,35 @@ pipeline {
 
     post {
         always {
-            // Ensure attachment paths are correct
-            emailext(
-                subject: "Pipeline Status: ${currentBuild.currentResult}",
-                body: """<html>
-                            <body>
-                                <p>Build Status: ${currentBuild.currentResult}</p>
-                                <p>Build Number: ${currentBuild.number}</p>
-                                <p><a href="${env.BUILD_URL}">Console Logs</a></p>
-                            </body>
-                        </html>""",
-                to: 'hogang.matt@gmail.com',
-                from: 'hogang.matt@gmail.com',
-                attachmentsPattern: '*.log',
-                mimeType: 'text/html'
-            )
+            script {
+                def emailSubject = "Pipeline Status: ${currentBuild.currentResult}"
+                def emailBody = """<html>
+                                    <body>
+                                        <p>Build Status: ${currentBuild.currentResult}</p>
+                                        <p>Build Number: ${currentBuild.number}</p>
+                                        <p><a href="${env.BUILD_URL}">Console Logs</a></p>
+                                    </body>
+                                </html>"""
+                
+                def attachments = [
+                    'C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Task 6.1C\\logs\\build.log',
+                    'C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Task 6.1C\\logs\\test.log'
+                ]
+
+                def mailer = new hudson.tasks.Mailer.DescriptorImpl()
+                def recipient = 'hogang.matt@gmail.com'
+                def sender = 'hogang.matt@gmail.com'
+
+                attachments.each { attachment ->
+                    mailer.sendMail(
+                        recipient: recipient,
+                        sender: sender,
+                        subject: emailSubject,
+                        body: emailBody,
+                        attachFiles: [new File(attachment)]
+                    )
+                }
+            }
         }
     }
 }
