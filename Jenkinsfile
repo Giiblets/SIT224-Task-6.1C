@@ -86,7 +86,7 @@ pipeline {
                         </html>""",
                 to: 'hogang.matt@gmail.com',
                 from: 'hogang.matt@gmail.com',
-               // attachmentsPattern: '**/logs/*.log',  // Adjust pattern to match your log file location
+                attachmentsPattern: '**/logs/*.log',  // Adjust pattern to match your log file location
                 mimeType: 'text/html'
             )
         }
