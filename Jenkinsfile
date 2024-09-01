@@ -60,11 +60,21 @@ pipeline {
         }
     }
 
-    post {
-        success{
-            mail to: "hogang.matt@gmail.com",
-            subject: "Build Status Email",
-            body: "Build was successful!"
+post {
+        always {
+            emailext(
+                subject: "Pipeline Status: ${currentBuild.currentResult}",
+                body: '''<html>
+                            <body>
+                                <p>Build Status: ${currentBuild.currentResult}</p>
+                                <p>Build Number: ${currentBuild.number}</p>
+                                <p><a href="${env.BUILD_URL}">Console Logs</a></p>
+                            </body>
+                        </html>''',
+                to: 'hogang.matt@gmail.com',
+                from: 'hogang.matt@gmail.com',
+                mimeType: 'text/html'
+            )
         }
     }
 }
