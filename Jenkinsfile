@@ -5,56 +5,55 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    echo 'Building the application...'
-                     writeFile file: 'build.log', text: 'Build log: Application built successfully.'
+                    echo 'Building the application. (Use Maven for building)'
                 }
             }
         }
+
         stage('Unit and Integration Tests') {
             steps {
                 script {
-                    echo 'Running Unit and Integration Tests...'
-                    //sh 'echo "Unit and Integration Tests log: All tests passed." > test.log'
+                    echo 'Running unit and integration tests. (Use JUnit or another test framework)'
                 }
             }
         }
+
         stage('Code Analysis') {
             steps {
                 script {
-                    echo 'Performing Code Analysis...'
-                    //sh 'echo "Code Analysis log: No issues found." > code_analysis.log'
+                    echo 'Analyzing code quality...(Use GitHub & SonarQube for code analysis)'
                 }
             }
         }
+
         stage('Security Scan') {
             steps {
                 script {
-                    echo 'Performing Security Scan...'
-                   // sh 'echo "Security Scan log: No vulnerabilities detected." > security_scan.log'
+                    echo 'Performing security scan. (Use OWASP ZAP for security scanning)'
                 }
             }
         }
+
         stage('Deploy to Staging') {
             steps {
                 script {
-                    echo 'Deploying to Staging...'
-                   // sh 'echo "Deploy to Staging log: Deployed successfully." > deploy_staging.log'
+                    echo 'Deploying to staging server. (Deploy to AWS EC2)'
                 }
             }
         }
+
         stage('Integration Tests on Staging') {
             steps {
                 script {
-                    echo 'Running Integration Tests on Staging...'
-                    //sh 'echo "Integration Tests on Staging log: All tests passed." > integration_staging.log'
+                    echo 'Running integration tests on staging. (Integration tests on staging server)'
                 }
             }
         }
+
         stage('Deploy to Production') {
             steps {
                 script {
-                    echo 'Deploying to Production...'
-                    //sh 'echo "Deploy to Production log: Deployed successfully." > deploy_production.log'
+                    echo 'Deploying to production server. (Deploy to AWS EC2)'
                 }
             }
         }
@@ -62,12 +61,19 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: '*.log', allowEmptyArchive: true
-            emailext to: 'hogang.matt@gmail.com',
-                     subject: "Jenkins Pipeline: ${currentBuild.fullDisplayName} - ${currentBuild.currentResult}",
-                     body: """Pipeline ${currentBuild.fullDisplayName} finished with status: ${currentBuild.currentResult}.
-                              Check the attached log for details.""",
-                     attachmentsPattern: '*.log'
+            emailext(
+                subject: "Pipeline Status: ${currentBuild.currentResult}",
+                body: '''<html>
+                            <body>
+                                <p>Build Status: ${currentBuild.currentResult}</p>
+                                <p>Build Number: ${currentBuild.number}</p>
+                                <p><a href="${env.BUILD_URL}">Console Logs</a></p>
+                            </body>
+                        </html>''',
+                to: 'hogang.matt@gmail.com',
+                from: 'hogang.matt@gmail.com',
+                mimeType: 'text/html'
+            )
         }
     }
 }
