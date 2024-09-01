@@ -75,19 +75,20 @@ pipeline {
 
     post {
         always {
+            // Ensure attachment paths are correct
             emailext(
-                to: 'hogang.matt@gmail.com',
                 subject: "Pipeline Status: ${currentBuild.currentResult}",
-                body: '''<html>
+                body: """<html>
                             <body>
                                 <p>Build Status: ${currentBuild.currentResult}</p>
                                 <p>Build Number: ${currentBuild.number}</p>
                                 <p><a href="${env.BUILD_URL}">Console Logs</a></p>
                             </body>
-                        </html>''',
+                        </html>""",
+                to: 'hogang.matt@gmail.com',
                 from: 'hogang.matt@gmail.com',
-                mimeType: 'text/html',
-                attachmentsPattern: '**/*.log' // Adjust the pattern to match your log files
+                attachmentsPattern: '*.log',
+                mimeType: 'text/html'
             )
         }
     }
