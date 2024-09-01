@@ -6,6 +6,7 @@ pipeline {
             steps {
                 script {
                     echo 'Building the application. (Use Maven for building)'
+
                 }
             }
         }
@@ -21,7 +22,7 @@ pipeline {
         stage('Code Analysis') {
             steps {
                 script {
-                    echo 'Analyzing code quality...(Use GitHub & SonarQube for code analysis)'
+                    echo 'Analyzing code quality...(Use Github & SonarQube for code analysis)'
                 }
             }
         }
@@ -60,20 +61,10 @@ pipeline {
     }
 
     post {
-        always {
-            emailext(
-                subject: "Pipeline Status: ${currentBuild.currentResult}",
-                body: '''<html>
-                            <body>
-                                <p>Build Status: ${currentBuild.currentResult}</p>
-                                <p>Build Number: ${currentBuild.number}</p>
-                                <p><a href="${env.BUILD_URL}">Console Logs</a></p>
-                            </body>
-                        </html>''',
-                to: 'hogang.matt@gmail.com',
-                from: 'hogang.matt@gmail.com',
-                mimeType: 'text/html'
-            )
+        success{
+            mail to: "hogang.matt@gmail.com",
+            subject: "Build Status Email",
+            body: "Build was successful!"
         }
     }
 }
