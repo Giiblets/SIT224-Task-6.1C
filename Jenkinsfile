@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     echo 'Building the application...'
-                    sh 'echo "Build log: Application built successfully." > build.log'
+                    //sh 'echo "Build log: Application built successfully." > build.log'
                 }
             }
         }
@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     echo 'Running Unit and Integration Tests...'
-                    sh 'echo "Unit and Integration Tests log: All tests passed." > test.log'
+                    //sh 'echo "Unit and Integration Tests log: All tests passed." > test.log'
                 }
             }
         }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     echo 'Performing Code Analysis...'
-                    sh 'echo "Code Analysis log: No issues found." > code_analysis.log'
+                    //sh 'echo "Code Analysis log: No issues found." > code_analysis.log'
                 }
             }
         }
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     echo 'Performing Security Scan...'
-                    sh 'echo "Security Scan log: No vulnerabilities detected." > security_scan.log'
+                   // sh 'echo "Security Scan log: No vulnerabilities detected." > security_scan.log'
                 }
             }
         }
@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to Staging...'
-                    sh 'echo "Deploy to Staging log: Deployed successfully." > deploy_staging.log'
+                   // sh 'echo "Deploy to Staging log: Deployed successfully." > deploy_staging.log'
                 }
             }
         }
@@ -46,7 +46,7 @@ pipeline {
             steps {
                 script {
                     echo 'Running Integration Tests on Staging...'
-                    sh 'echo "Integration Tests on Staging log: All tests passed." > integration_staging.log'
+                    //sh 'echo "Integration Tests on Staging log: All tests passed." > integration_staging.log'
                 }
             }
         }
@@ -54,7 +54,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to Production...'
-                    sh 'echo "Deploy to Production log: Deployed successfully." > deploy_production.log'
+                    //sh 'echo "Deploy to Production log: Deployed successfully." > deploy_production.log'
                 }
             }
         }
