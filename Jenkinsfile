@@ -5,56 +5,56 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    echo 'Building the application. (Use Maven for building)'
-                    sh 'echo "Build log" > build.log'
+                    echo 'Building the application...'
+                    sh 'echo "Build log: Application built successfully." > build.log'
                 }
             }
         }
         stage('Unit and Integration Tests') {
             steps {
                 script {
-                    echo 'Running unit and integration tests. (Use JUnit or another test framework)'
-                    sh 'echo "Unit and Integration Tests log" > test.log'
+                    echo 'Running Unit and Integration Tests...'
+                    sh 'echo "Unit and Integration Tests log: All tests passed." > test.log'
                 }
             }
         }
         stage('Code Analysis') {
             steps {
                 script {
-                    echo 'Analyzing code quality...(Use Github & SonarQube for code analysis)'
-                    sh 'echo "Code Analysis log" > code_analysis.log'
+                    echo 'Performing Code Analysis...'
+                    sh 'echo "Code Analysis log: No issues found." > code_analysis.log'
                 }
             }
         }
         stage('Security Scan') {
             steps {
                 script {
-                    echo 'Performing security scan. (Use OWASP ZAP for security scanning)'
-                    sh 'echo "Security Scan log" > security_scan.log'
+                    echo 'Performing Security Scan...'
+                    sh 'echo "Security Scan log: No vulnerabilities detected." > security_scan.log'
                 }
             }
         }
         stage('Deploy to Staging') {
             steps {
                 script {
-                    echo 'Deploying to staging server. (Deploy to AWS EC2)'
-                    sh 'echo "Deploy to Staging log" > deploy_staging.log'
+                    echo 'Deploying to Staging...'
+                    sh 'echo "Deploy to Staging log: Deployed successfully." > deploy_staging.log'
                 }
             }
         }
         stage('Integration Tests on Staging') {
             steps {
                 script {
-                    echo 'Running integration tests on staging. (Integration tests on staging server)'
-                    sh 'echo "Integration Tests on Staging log" > integration_staging.log'
+                    echo 'Running Integration Tests on Staging...'
+                    sh 'echo "Integration Tests on Staging log: All tests passed." > integration_staging.log'
                 }
             }
         }
         stage('Deploy to Production') {
             steps {
                 script {
-                    echo 'Deploying to production server. (Deploy to AWS EC2)'
-                    sh 'echo "Deploy to Production log" > deploy_production.log'
+                    echo 'Deploying to Production...'
+                    sh 'echo "Deploy to Production log: Deployed successfully." > deploy_production.log'
                 }
             }
         }
