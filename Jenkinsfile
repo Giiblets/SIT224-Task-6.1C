@@ -5,8 +5,9 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    echo 'Building the application. (Use Maven for building)'
-
+                    echo 'Building the application.'
+                    // Example command that generates a log file
+                    bat 'echo Build started > build.log'
                 }
             }
         }
@@ -14,7 +15,9 @@ pipeline {
         stage('Unit and Integration Tests') {
             steps {
                 script {
-                    echo 'Running unit and integration tests. (Use JUnit or another test framework)'
+                    echo 'Running unit and integration tests.'
+                    // Example command that generates a log file
+                    bat 'echo Tests started > test.log'
                 }
             }
         }
@@ -22,7 +25,9 @@ pipeline {
         stage('Code Analysis') {
             steps {
                 script {
-                    echo 'Analyzing code quality...(Use Github & SonarQube for code analysis)'
+                    echo 'Analyzing code quality.'
+                    // Example command that generates a log file
+                    bat 'echo Code analysis started > code-analysis.log'
                 }
             }
         }
@@ -30,7 +35,9 @@ pipeline {
         stage('Security Scan') {
             steps {
                 script {
-                    echo 'Performing security scan. (Use OWASP ZAP for security scanning)'
+                    echo 'Performing security scan.'
+                    // Example command that generates a log file
+                    bat 'echo Security scan started > security-scan.log'
                 }
             }
         }
@@ -38,7 +45,9 @@ pipeline {
         stage('Deploy to Staging') {
             steps {
                 script {
-                    echo 'Deploying to staging server. (Deploy to AWS EC2)'
+                    echo 'Deploying to staging server.'
+                    // Example command that generates a log file
+                    bat 'echo Deployment started > deploy-staging.log'
                 }
             }
         }
@@ -46,7 +55,9 @@ pipeline {
         stage('Integration Tests on Staging') {
             steps {
                 script {
-                    echo 'Running integration tests on staging. (Integration tests on staging server)'
+                    echo 'Running integration tests on staging.'
+                    // Example command that generates a log file
+                    bat 'echo Integration tests started > integration-tests.log'
                 }
             }
         }
@@ -54,7 +65,9 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 script {
-                    echo 'Deploying to production server. (Deploy to AWS EC2)'
+                    echo 'Deploying to production server.'
+                    // Example command that generates a log file
+                    bat 'echo Deployment to production started > deploy-production.log'
                 }
             }
         }
@@ -62,11 +75,20 @@ pipeline {
 
     post {
         always {
-            mail to: 'hogang.matt@gmail.com',
-                 subject: "Pipeline Status: ${currentBuild.currentResult}",
-                 body: """Build Status: ${currentBuild.currentResult}
-                          Build Number: ${currentBuild.number}
-                          Console Logs: ${env.BUILD_URL}"""
+            emailext(
+                to: 'hogang.matt@gmail.com',
+                subject: "Pipeline Status: ${currentBuild.currentResult}",
+                body: '''<html>
+                            <body>
+                                <p>Build Status: ${currentBuild.currentResult}</p>
+                                <p>Build Number: ${currentBuild.number}</p>
+                                <p><a href="${env.BUILD_URL}">Console Logs</a></p>
+                            </body>
+                        </html>''',
+                from: 'hogang.matt@gmail.com',
+                mimeType: 'text/html',
+                attachmentsPattern: '**/*.log' // Adjust the pattern to match your log files
+            )
         }
     }
 }
