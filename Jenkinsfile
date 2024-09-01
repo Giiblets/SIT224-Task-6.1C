@@ -6,6 +6,7 @@ pipeline {
             steps {
                 script {
                     echo 'Building the application. (Use Maven for building)'
+                    // test
                 }
             }
         }
