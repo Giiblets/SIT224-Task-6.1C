@@ -75,11 +75,20 @@ pipeline {
 
     post {
         always {
-            mail to: 'hogang.matt@gmail.com',
-                 subject: "Pipeline Status: ${currentBuild.currentResult}",
-                 body: """Build Status: ${currentBuild.currentResult}
-                          Build Number: ${currentBuild.number}
-                          Console Logs: ${env.BUILD_URL}"""
+            emailext(
+                to: 'hogang.matt@gmail.com',
+                subject: "Pipeline Status: ${currentBuild.currentResult}",
+                body: '''<html>
+                            <body>
+                                <p>Build Status: ${currentBuild.currentResult}</p>
+                                <p>Build Number: ${currentBuild.number}</p>
+                                <p><a href="${env.BUILD_URL}">Console Logs</a></p>
+                            </body>
+                        </html>''',
+                from: 'hogang.matt@gmail.com',
+                mimeType: 'text/html',
+                attachmentsPattern: '**/*.log' // Adjust the pattern to match your log files
+            )
         }
     }
 } //emailext attachLog: true, body: 'The security scan has: failed', to:'hogang.matt@gmail.com', subject: 'Pipeline build status: Security'
