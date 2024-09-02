@@ -84,7 +84,7 @@ pipeline {
                                 <p><a href="${env.BUILD_URL}">Console Logs</a></p>
                             </body>
                         </html>""",
-                to: 'hogang.matt@gmail.com',
+                to: 'unreal8919@hotmail.com',
                 from: 'hogang.matt@gmail.com',
                 attachmentsPattern: '**/logs/*.log',  // Adjust pattern to match your log file location
                 mimeType: 'text/html'
