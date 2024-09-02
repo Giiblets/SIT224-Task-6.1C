@@ -6,7 +6,6 @@ pipeline {
             steps {
                 script {
                     echo 'Building the application.'
-                    // Example command that generates a log file
                     bat 'echo Build started > build.log'
                 }
             }
@@ -16,7 +15,6 @@ pipeline {
             steps {
                 script {
                     echo 'Running unit and integration tests.'
-                    // Example command that generates a log file
                     bat 'echo Tests started > test.log'
                 }
             }
@@ -26,7 +24,6 @@ pipeline {
             steps {
                 script {
                     echo 'Analyzing code quality.'
-                    // Example command that generates a log file
                     bat 'echo Code analysis started > code-analysis.log'
                 }
             }
@@ -36,7 +33,6 @@ pipeline {
             steps {
                 script {
                     echo 'Performing security scan.'
-                    // Example command that generates a log file
                     bat 'echo Security scan started > security-scan.log'
                 }
             }
@@ -56,7 +52,6 @@ pipeline {
             steps {
                 script {
                     echo 'Running integration tests on staging.'
-                    // Example command that generates a log file
                     bat 'echo Integration tests started > integration-tests.log'
                 }
             }
@@ -66,7 +61,6 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to production server.'
-                    // Example command that generates a log file
                     bat 'echo Deployment to production started > deploy-production.log'
                 }
             }
@@ -80,15 +74,13 @@ pipeline {
                 subject: "Pipeline Status: ${currentBuild.currentResult}",
                 body: '''<html>
                             <body>
-                                <p>Build Status: ${currentBuild.currentResult}</p>
-                                <p>Build Number: ${currentBuild.number}</p>
-                                <p><a href="${env.BUILD_URL}">Console Logs</a></p>
+                                <p>Please see the attached Logs for more detail</p>
                             </body>
                         </html>''',
                 from: 'hogang.matt@gmail.com',
                 mimeType: 'text/html',
-                attachmentsPattern: '**/*.log' // Adjust the pattern to match your log files
+                attachmentsPattern: '**/*.log' 
             )
         }
     }
-} //emailext attachLog: true, body: 'The security scan has: failed', to:'hogang.matt@gmail.com', subject: 'Pipeline build status: Security'
+} 
